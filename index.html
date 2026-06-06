@@ -90,6 +90,7 @@
             const [generatedBrief, setGeneratedBrief] = useState(null);
             const [activeTab, setActiveTab] = useState('summary');
             const [copiedText, setCopiedText] = useState(false);
+            const [validationError, setValidationError] = useState("");
 
             const handleInputChange = (e) => {
                 const { name, value, type, checked } = e.target;
@@ -105,12 +106,30 @@
             };
 
             const generateStrategyBrief = () => {
+                // Mandatory fields validation
+                if (
+                    !formData.gameName.trim() ||
+                    !formData.studioName.trim() ||
+                    !formData.primaryGate.trim() ||
+                    !formData.d7Retention.trim() ||
+                    !formData.d60Ltv.trim() ||
+                    !formData.targetInstalls.trim() ||
+                    !formData.monthlyBudget.trim()
+                ) {
+                    setValidationError("⚠️ Please fill out all required fields marked with an asterisk (*) to build your strategy brief.");
+                    // Smoothly scroll up to the warning block
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+
+                // Clear previous validation error if successful
+                setValidationError("");
                 setIsGenerating(true);
                 setGeneratedBrief(null);
                 
                 setTimeout(() => {
-                    const gameTitle = formData.gameName || "Your Game";
-                    const studioTitle = formData.studioName || "Your Studio";
+                    const gameTitle = formData.gameName;
+                    const studioTitle = formData.studioName;
                     const isHighIap = formData.iapPercent > 70;
                     const isCasual = formData.genre === 'Puzzle' || formData.genre === 'Casual' || formData.genre === 'Hypercasual';
                     const isMidcore = formData.genre === 'RPG' || formData.genre === 'Strategy' || formData.genre === 'Shooter';
@@ -182,7 +201,7 @@
                         rewardTiers: [
                             { milestone: "Milestone 1 (Install & Initialize)", amount: "€0.08-0.12", segment: "All users", rationale: "Minimal friction trigger, boosting App Store velocity ranking." },
                             { milestone: "Milestone 2 (Tutorial Finish)", amount: "€0.20-0.35", segment: "All users", rationale: "Guarantees base system literacy. Dramatically trims Day 1 dropoff rates." },
-                            { milestone: `Milestone 3 (${formData.primaryGate || 'Reach Level 10'})`, amount: "€0.80-1.60", segment: "High-intent", rationale: dynamics.milestone3Rationale },
+                            { milestone: `Milestone 3 (${formData.primaryGate})`, amount: "€0.80-1.60", segment: "High-intent", rationale: dynamics.milestone3Rationale },
                             { milestone: "Milestone 4 (First In-App Store Purchase)", amount: "€3.50-5.50", segment: "High spenders", rationale: "Safeguards premium positive ROI offsets and hooks competitive high-rollers." }
                         ],
                         segments: [
@@ -263,7 +282,7 @@
             };
 
             const triggerClipboardCopy = () => {
-                const textToCopy = `Almedia Strategic Campaign Brief\nGame: ${formData.gameName || "Your Game"}\nStudio: ${formData.studioName || "Your Studio"}\nTarget ROAS: ${generatedBrief ? generatedBrief.executiveSummary.roas : "130-170%"}\nUplift Target: ${generatedBrief ? generatedBrief.executiveSummary.d7Uplift : "N/A"}`;
+                const textToCopy = `Almedia Strategic Campaign Brief\nGame: ${formData.gameName}\nStudio: ${formData.studioName}\nTarget ROAS: ${generatedBrief ? generatedBrief.executiveSummary.roas : "130-170%"}\nUplift Target: ${generatedBrief ? generatedBrief.executiveSummary.d7Uplift : "N/A"}`;
                 navigator.clipboard.writeText(textToCopy);
                 setCopiedText(true);
                 setTimeout(() => setCopiedText(false), 2000);
@@ -271,7 +290,7 @@
 
             return (
                 <div className="min-h-screen bg-black text-gray-100 pb-24">
-                    {/* Brand Header */}
+                    {}
                     <header className="border-b border-brandBorder bg-black sticky top-0 z-50">
                         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
                             <div className="flex items-center gap-3">
@@ -286,11 +305,11 @@
                     </header>
 
                     <main className="max-w-6xl mx-auto px-6 mt-10">
-                        {/* Dynamic Warning Alert for high IAP */}
-                        {formData.iapPercent > 80 && (
-                            <div className="mb-6 p-4 bg-brandBlue/10 border border-brandBlue/50 text-brandCyan rounded-lg flex items-center gap-3 text-sm">
+                        {/* Validation Error Message Box */}
+                        {validationError && (
+                            <div className="mb-6 p-4 bg-red-950/40 border border-red-800 text-red-200 rounded-lg flex items-center gap-3 text-sm animate-pulse">
                                 <Icons.ShieldAlert />
-                                <span><strong>Monetization Notice:</strong> Highly focused on IAP ({formData.iapPercent}%). Strategy brief will automatically optimize toward deeper funnel milestones to maximize whale values.</span>
+                                <span className="font-semibold">{validationError}</span>
                             </div>
                         )}
 
@@ -303,16 +322,21 @@
                                 <p className="text-xs text-gray-400 mt-1">Input baseline game metrics to construct a dynamically simulated campaign brief.</p>
                             </div>
 
+                            {}
                             <div className="p-6 grid grid-cols-1 md:grid-cols-4 gap-6">
                                 {/* 1. Game Info */}
                                 <div className="space-y-4 border-r border-brandBorder/30 pr-2">
                                     <h3 className="text-xs font-bold text-brandCyan uppercase tracking-widest">1. Game Info</h3>
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-400 mb-1">Game Name</label>
+                                        <label className="block text-xs font-semibold text-gray-400 mb-1">
+                                            Game Name <span className="text-brandCyan">*</span>
+                                        </label>
                                         <input type="text" name="gameName" value={formData.gameName} onChange={handleInputChange} placeholder="e.g. Office Cat" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan" />
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-400 mb-1">Studio Name</label>
+                                        <label className="block text-xs font-semibold text-gray-400 mb-1">
+                                            Studio Name <span className="text-brandCyan">*</span>
+                                        </label>
                                         <input type="text" name="studioName" value={formData.studioName} onChange={handleInputChange} placeholder="e.g. Stillfront Group" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan" />
                                     </div>
                                     <div>
@@ -338,9 +362,14 @@
                                             <span className="text-brandCyan font-mono">{formData.iapPercent}% IAP / {formData.adPercent}% Ads</span>
                                         </label>
                                         <input type="range" name="iapPercent" min="0" max="100" value={formData.iapPercent} onChange={handleInputChange} className="w-full accent-slider mt-2" />
+                                        <span className="text-[10px] text-gray-500 block mt-1">
+                                            *IAP = In-App Purchases (direct transactions within the game context)
+                                        </span>
                                     </div>
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-400 mb-1">Primary Monetization Gate</label>
+                                        <label className="block text-xs font-semibold text-gray-400 mb-1">
+                                            Primary Monetization Gate <span className="text-brandCyan">*</span>
+                                        </label>
                                         <input type="text" name="primaryGate" value={formData.primaryGate} onChange={handleInputChange} placeholder="e.g. Starter Pack (€1.99)" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan" />
                                     </div>
                                 </div>
@@ -350,11 +379,15 @@
                                     <h3 className="text-xs font-bold text-brandCyan uppercase tracking-widest">3. Baselines</h3>
                                     <div className="grid grid-cols-2 gap-2">
                                         <div>
-                                            <label className="block text-xs font-semibold text-gray-400 mb-1">D7 Ret (%)</label>
+                                            <label className="block text-[11px] font-semibold text-gray-400 mb-1">
+                                                D7 Ret (%) <span className="text-brandCyan">*</span>
+                                            </label>
                                             <input type="number" name="d7Retention" value={formData.d7Retention} onChange={handleInputChange} placeholder="e.g. 18" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-semibold text-gray-400 mb-1">D60 LTV (€)</label>
+                                            <label className="block text-[11px] font-semibold text-gray-400 mb-1">
+                                                D60 LTV (€) <span className="text-brandCyan">*</span>
+                                            </label>
                                             <input type="number" step="0.1" name="d60Ltv" value={formData.d60Ltv} onChange={handleInputChange} placeholder="e.g. 1.80" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
                                         </div>
                                     </div>
@@ -368,16 +401,20 @@
                                 <div className="space-y-4">
                                     <h3 className="text-xs font-bold text-brandCyan uppercase tracking-widest">4. Goals</h3>
                                     <div>
-                                        <label className="block text-xs font-semibold text-gray-400 mb-1">Target Daily Installs</label>
+                                        <label className="block text-xs font-semibold text-gray-400 mb-1">
+                                            Target Daily Installs <span className="text-brandCyan">*</span>
+                                        </label>
                                         <input type="number" name="targetInstalls" value={formData.targetInstalls} onChange={handleInputChange} placeholder="e.g. 5000" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
                                     </div>
                                     <div className="grid grid-cols-2 gap-2">
                                         <div>
-                                            <label className="block text-xs font-semibold text-gray-400 mb-1">Budget/mo (€)</label>
+                                            <label className="block text-[11px] font-semibold text-gray-400 mb-1">
+                                                Budget/mo (€) <span className="text-brandCyan">*</span>
+                                            </label>
                                             <input type="number" name="monthlyBudget" value={formData.monthlyBudget} onChange={handleInputChange} placeholder="e.g. 50000" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-semibold text-gray-400 mb-1">Duration</label>
+                                            <label className="block text-[11px] font-semibold text-gray-400 mb-1">Duration</label>
                                             <select name="duration" value={formData.duration} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-xs text-white focus:outline-none focus:border-brandCyan">
                                                 <option value="30 days">30 days</option>
                                                 <option value="60 days">60 days</option>
@@ -403,13 +440,14 @@
                             </div>
                         </div>
 
+                        {}
                         {/* Generated Brief Section */}
                         {generatedBrief && (
                             <section id="brief-results" className="mt-12 space-y-6">
                                 <div className="flex items-center justify-between border-b border-brandBorder pb-4">
                                     <div>
-                                        <h2 className="text-2xl font-bold text-white tracking-tight">{formData.gameName || "Your Game"} Strategy Strategy</h2>
-                                        <p className="text-xs text-gray-400 mt-1">Simulated forecast metrics aligned specifically for {formData.studioName || "Your Studio"}</p>
+                                        <h2 className="text-2xl font-bold text-white tracking-tight">{formData.gameName} Strategy Strategy</h2>
+                                        <p className="text-xs text-gray-400 mt-1">Simulated forecast metrics aligned specifically for {formData.studioName}</p>
                                     </div>
                                     <span className="text-xs font-extrabold px-3 py-1 rounded bg-brandBlue/20 text-brandCyan border border-brandBlue/40 uppercase tracking-widest">Active Forecast</span>
                                 </div>
@@ -439,6 +477,7 @@
                                     ))}
                                 </div>
 
+                                {}
                                 {/* Output Content Panel */}
                                 <div className="bg-brandCard border border-brandBorder rounded-xl min-h-[380px] p-8">
                                     
@@ -694,6 +733,7 @@
 
                                 </div>
 
+                                {}
                                 {/* Shared Action Controls */}
                                 <div className="mt-8 flex flex-wrap gap-4 justify-end">
                                     <button 
