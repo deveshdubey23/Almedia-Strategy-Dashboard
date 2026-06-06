@@ -1,0 +1,689 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2685.5">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; -webkit-text-stroke: #000000}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 13.0px Courier; -webkit-text-stroke: #000000; min-height: 16.0px}
+    span.s1 {font-kerning: none}
+  </style>
+</head>
+<body>
+<p class="p1"><span class="s1">&lt;script type="text/babel"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const { useState, useEffect } = React;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const Icons = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>Target: () =&gt; &lt;svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" /&gt;&lt;/svg&gt;,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>Zap: () =&gt; &lt;svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /&gt;&lt;/svg&gt;,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>BarChart: () =&gt; &lt;svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /&gt;&lt;/svg&gt;,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>Users: () =&gt; &lt;svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /&gt;&lt;/svg&gt;,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>Calendar: () =&gt; &lt;svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /&gt;&lt;/svg&gt;,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>ShieldAlert: () =&gt; &lt;svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /&gt;&lt;/svg&gt;,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>Download: () =&gt; &lt;svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /&gt;&lt;/svg&gt;,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>Mail: () =&gt; &lt;svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /&gt;&lt;/svg&gt;,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>Link: () =&gt; &lt;svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" /&gt;&lt;/svg&gt;,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>Copy: () =&gt; &lt;svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /&gt;&lt;/svg&gt;,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>Check: () =&gt; &lt;svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /&gt;&lt;/svg&gt;,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>Lightbulb: () =&gt; &lt;svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /&gt;&lt;/svg&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const AlmediaDashboard = () =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const [formData, setFormData] = useState({</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>gameName: "Office Cat",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>studioName: "Stillfront Group",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>genre: "Puzzle",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>iapPercent: 80,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>adPercent: 20,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>primaryGate: "Starter Pack (€1.99)",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>d7Retention: 18,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>d60Ltv: 1.80,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>prevFreecash: false,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>targetInstalls: 5000,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>monthlyBudget: 50000,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>duration: "90 days"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>});</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const [isGenerating, setIsGenerating] = useState(false);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const [generatedBrief, setGeneratedBrief] = useState(null);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const [activeTab, setActiveTab] = useState('summary');</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const [copiedText, setCopiedText] = useState(false);</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const handleInputChange = (e) =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const { name, value, type, checked } = e.target;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>if (name === 'iapPercent') {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const iap = parseInt(value) || 0;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setFormData(prev =&gt; ({ ...prev, iapPercent: iap, adPercent: 100 - iap }));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setFormData(prev =&gt; ({</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>...prev,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>[name]: type === 'checkbox' ? checked : value</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const generateStrategyBrief = () =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>setIsGenerating(true);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>setGeneratedBrief(null);</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">            </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const isHighIap = formData.iapPercent &gt; 70;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const isCasual = formData.genre === 'Puzzle' || formData.genre === 'Casual' || formData.genre === 'Hypercasual';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const isMidcore = formData.genre === 'RPG' || formData.genre === 'Strategy' || formData.genre === 'Shooter';</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const baseD7 = parseInt(formData.d7Retention) || 15;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const budgetAmount = parseInt(formData.monthlyBudget) || 10000;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const uplift = isCasual ? 8 : (isMidcore ? 14 : 10);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const projectedD7 = baseD7 + uplift;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const roasTarget = isHighIap ? "130-170%" : "100-120%";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const breakevenDays = isHighIap ? "45-60 days" : (isCasual ? "14-21 days" : "30-45 days");</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const genreDynamics = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>Puzzle: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>intro: `With its engaging core loops and accessible progression structure, Puzzle mechanics drive exceptionally strong early user retention.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>callout: `be perfectly positioned to capture our "Daily Habit" segment—ensuring a steady stream of highly engaged users`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>milestone3Rationale: `Filters for analytical, committed minds who love conquering progressive logic milestones.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>segARationale: `Similar puzzle blockbusters witness 30%+ higher day 14 loyalty in this category.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>segBDesc: `Casual users seeking satisfying cognitive puzzles with regular micro-earning check-ins.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>creativeProp: `Conquer logic challenges and cash out your progress daily`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>risk1Desc: `Puzzle enthusiasts bounce quickly if the onboarding learning curve is needlessly steep.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>risk1Mit: `A/B test early stage difficulties and reward players immediately after Level 5 completion.`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>RPG: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>intro: `Deep character metadata and immersive leveling progression represent the gold standard for securing high-LTV players.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>callout: `target our premium "Meta Progression" players who invest heavy screen-time into strategic goals`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>milestone3Rationale: `Confirms significant gameplay commitment, identifying prospective premium spenders.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>segARationale: `RPG lovers on Freecash display unparalleled day-60 longevity benchmarks.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>segBDesc: `Dedicated RPG gamers eager to level-up meta profiles for substantial long-term benefits.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>creativeProp: `Forge your hero, advance your path, and unlock real financial earnings`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>risk1Desc: `Complex introductory systems can overwhelm mainstream users expecting faster milestones.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>risk1Mit: `Integrate immediate micro-payouts for basic tutorial progression milestones.`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>Strategy: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>intro: `Complex base management, faction mechanics, and cooperative alliances represent highly lucrative terrain for competitive players.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>callout: `dominate in our "Tactical Competitive" segment, maximizing immediate conversion value`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>milestone3Rationale: `Proves robust user integration into competitive community clans or guild layers.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>segARationale: `Strategy players demonstrate our network's highest average monthly investment.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>segBDesc: `Strategic planners optimized to calculate reward loops and invest maximum session length.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>creativeProp: `Establish your base, organize your army, and command real payouts`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>risk1Desc: `Extended base build times can dull motivation during early game gaps.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>risk1Mit: `Introduce frequent micro-rewards centered on basic upgrade completions.`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>Casual: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>intro: `Broad audience compatibility and intuitive mechanics ensure exceptional volume generation capabilities.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>callout: `excel inside our high-volume "Immediate Action" roster for rapid installation velocities`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>milestone3Rationale: `Validates daily routine creation, setting up steady advertising exposure channels.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>segARationale: `Extremely responsive user pool guarantees rapid early scaling.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>segBDesc: `Gamers who love short-session, stress-free gameplay with fast verification.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>creativeProp: `Match, spin, and tap your path to real payouts on Freecash`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>risk1Desc: `High churn risk if the reward system isn't immediately contextualized in-game.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>risk1Mit: `Distribute the first micro-payout event within exactly 3 minutes of app initialization.`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const dynamics = genreDynamics[formData.genre] || genreDynamics['Casual'];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const monetizationStrategyText = isHighIap<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>? 'mobilizing strong internal purchase architecture to systematically harvest maximum whale LTV.'<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>: 'relying on highly optimized ad placements and balanced micro-transaction layers to yield high-volume returns.';</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const brief = {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>executiveSummary: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>intro: `Strategic evaluation of ${formData.gameName} by ${formData.studioName} indicates robust, scalable viability. ${dynamics.intro} By ${monetizationStrategyText}`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>d7Uplift: `${projectedD7 - 2}% - ${projectedD7 + 3}%`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>roas: roasTarget,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>breakeven: breakevenDays,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>callout: `🎯 Strategic Target: ${formData.gameName} will ${dynamics.callout}. Implementation optimizes campaign ROAS directly toward ${roasTarget} inside 60 days.`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>rewardTiers: [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ milestone: "Milestone 1 (Install &amp; Initialize)", amount: "€0.08-0.12", segment: "All users", rationale: "Minimal friction trigger, boosting App Store velocity ranking." },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ milestone: "Milestone 2 (Tutorial Finish)", amount: "€0.20-0.35", segment: "All users", rationale: "Guarantees base system literacy. Dramatically trims Day 1 dropoff rates." },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ milestone: `Milestone 3 (${formData.primaryGate || 'Reach Level 10'})`, amount: "€0.80-1.60", segment: "High-intent", rationale: dynamics.milestone3Rationale },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ milestone: "Milestone 4 (First In-App Store Purchase)", amount: "€3.50-5.50", segment: "High spenders", rationale: "Safeguards premium positive ROI offsets and hooks competitive high-rollers." }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>],</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>segments: [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ title: `Segment A: ${formData.genre} Specialists`, desc: "High engagement histories inside matching genre titles.", priority: "Priority 1 (Strategic Start)", d7: projectedD7 + 2, vol: Math.round(formData.targetInstalls * 0.55), rationale: dynamics.segARationale },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ title: "Segment B: Progressive Earners", desc: dynamics.segBDesc, priority: "Priority 2 (Scaling Phase)", d7: projectedD7 - 3, vol: Math.round(formData.targetInstalls * 0.35), rationale: "Highly scalable demographics allowing for mass volume expansions." },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ title: "Segment C: High-LTV Premium Whales", desc: "Users verified to regularly convert in-app with verified billing.", priority: "Priority 3 (Whale Harvest)", d7: projectedD7 + 8, vol: Math.round(formData.targetInstalls * 0.10), rationale: "The absolute highest transactional density, critical for robust scaling." }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>],</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>kpis: [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ name: "Day 1 Retention", target: `${baseD7 + 26}% - ${baseD7 + 32}%`, rationale: "Uplift powered by early reward mechanics", bench: `${baseD7 + 20}%`, status: 'good' },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ name: "Day 7 Retention", target: `${projectedD7}% - ${projectedD7 + 4}%`, rationale: "Sustained by tiered milestone challenges", bench: `${baseD7}%`, status: 'good' },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ name: "Day 30 Retention", target: `${Math.round(projectedD7 * 0.45)}% - ${Math.round(projectedD7 * 0.52)}%`, rationale: "Deep reward structures retain late cohorts", bench: `${Math.round(baseD7 * 0.4)}%`, status: 'neutral' },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ name: "LTV (Day 60)", target: `€${(parseFloat(formData.d60Ltv || 1.0) * 1.45).toFixed(2)} - €${(parseFloat(formData.d60Ltv || 1.0) * 1.75).toFixed(2)}`, rationale: "Tailored monetization gate synchronization", bench: `€${parseFloat(formData.d60Ltv || 1.0).toFixed(2)}`, status: 'good' },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ name: "ROAS (Day 60)", target: roasTarget, rationale: "Highly feasible given correct audience targeting", bench: "110%", status: 'good' },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ name: "CPI Target Zone", target: "€0.70 - €1.10", rationale: "Ideal range balancing acquisition and user quality", bench: "€0.85", status: 'neutral' }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>],</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>creative: {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>prop: dynamics.creativeProp,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>angles: [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>`🎮 Play ${formData.gameName} — Pure entertainment without forced video ads tracking.`,</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>"💰 Instant withdrawals supported directly to local payment setups.",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>"🏆 Compete alongside 60M+ monthly gamers maximizing their time value."</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>],</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>assets: [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>"3x high-contrast screenshots juxtaposing active UI and payouts",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>"1x 15-second mobile gameplay clip showcasing smooth progression",</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>`CTA Template: "Reach ${formData.primaryGate.split(' ')[0] || 'Milestone'} to unlock €X reward"`</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>],</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>avoid: [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>'"Get rich quick" visual schemes or sketchy earning promises',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>'Fabricated playstyle captures that omit standard interface looks',</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>'Highly complex, text-heavy explanations detailing cash-outs'</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>]</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>},</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>risks: [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ severity: "High", color: "text-red-500 bg-red-950/40 border-red-800", icon: "🔴", name: "Reward Cannibalizing", desc: "Regular players may postpone expected shop purchases to rely on campaign rewards.", mitigation: "Limit cash incentives strictly to mid-tier thresholds; ensure premium shop inventory feels superior." },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ severity: "Medium", color: "text-amber-500 bg-amber-950/40 border-amber-800", icon: "🟡", name: "Early Churn Threat", desc: dynamics.risk1Desc, mitigation: dynamics.risk1Mit },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ severity: "Medium", color: "text-amber-500 bg-amber-950/40 border-amber-800", icon: "🟡", name: "Creative Burnout", desc: "Repeated massive exposures naturally wear down creative efficiency benchmarks.", mitigation: "Formulate a dynamic assets queue, committing to cycling top layouts bi-weekly." }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>]</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>const totalDays = parseInt(formData.duration);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>let activeRoadmap = [];</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (totalDays === 30) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>activeRoadmap = [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ phase: "Days 1-7", status: "blue", title: "Integration &amp; Initial Verification", items: ["Implement telemetry &amp; postbacks", `Controlled soft-launch: Cap at ${Math.round(formData.targetInstalls * 0.2)} daily installs`, "Monitor tracking validations"] },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ phase: "Days 8-15", status: "blue", title: "Milestone Calibration", items: ["Evaluate D1 &amp; D3 cohort behaviors", "Fine-tune progression steps to optimize budgets", `Scale to ${Math.round(formData.targetInstalls * 0.55)} daily installs`] },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ phase: "Days 16-23", status: "green", title: "Targeted Growth Scale", items: [`Push campaign velocity toward ${formData.targetInstalls} daily installs`, "Initiate targeted segment rules", "Analyze early ROAS models"] },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ phase: "Days 24-30", status: "gray", title: "Cohort Analysis &amp; Review", items: ["Consolidate 30-day cohort metrics", "Evaluate target ROI curves", "Establish expansion strategies"] }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else if (totalDays === 60) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>activeRoadmap = [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ phase: "Weeks 1-2", status: "blue", title: "Technical Verification &amp; Calibration", items: ["Configure network API links", `Set up initial benchmark limit of ${Math.round(formData.targetInstalls * 0.3)} daily installs`, "Cross-verify payout conversions"] },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ phase: "Weeks 3-4", status: "blue", title: "Initial Scaling &amp; Creative Optimization", items: [`Elevate daily volumes toward ${Math.round(formData.targetInstalls * 0.7)} daily installs`, "Implement creative variations testing", "Identify high-performing channels"] },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ phase: "Weeks 5-6", status: "green", title: "Velocity Push Phase", items: [`Command maximum daily run rates of ${formData.targetInstalls} installs`, "Open targeting to all secondary tiers", "Optimize cost layouts dynamically"] },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ phase: "Weeks 7-8", status: "gray", title: "LTV Modeling &amp; Refinement", items: ["Run Day-45 LTV progression analysis", "Stabilize daily traffic values", "Approve subsequent quarter budgets"] }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>} else {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>activeRoadmap = [</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ phase: "Month 1", status: "blue", title: "Technical Setup &amp; Performance Baselines", items: ["Align API reporting", `Initiate validation cohorts: ${Math.round(formData.targetInstalls * 0.4)} daily installs`, "Secure early system metrics"] },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ phase: "Month 2", status: "green", title: "Aggressive Volume Escalation", items: [`Unleash targeting at ${formData.targetInstalls} daily installs`, "Launch optimized localization styles", "Track cohort milestone velocities"] },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>{ phase: "Month 3", status: "gray", title: "Maximization &amp; Expansion Review", items: ["Consolidate long-term retention trends", "Fine-tune secondary target rules", "Prepare next game integration specs"] }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>if (formData.prevFreecash) {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>activeRoadmap[0].title += " (Fast-Tracked)";</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>activeRoadmap[0].items = ["Reuse existing telemetry templates", "Skip low-volume validation caps", `Initialize scaling directly at ${Math.round(formData.targetInstalls * 0.65)} daily installs`];</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>brief.roadmap = activeRoadmap;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setGeneratedBrief(brief);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setIsGenerating(false);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>setTimeout(() =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>document.getElementById('brief-results').scrollIntoView({ behavior: 'smooth' });</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>}, 200);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>}, 1800);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>const triggerClipboardCopy = () =&gt; {</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>const textToCopy = `Almedia Strategic Campaign Brief\nGame: ${formData.gameName}\nStudio: ${formData.studioName}\nTarget ROAS: ${generatedBrief ? generatedBrief.executiveSummary.roas : "130-170%"}\nUplift Target: ${generatedBrief ? generatedBrief.executiveSummary.d7Uplift : "N/A"}`;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>navigator.clipboard.writeText(textToCopy);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>setCopiedText(true);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>setTimeout(() =&gt; setCopiedText(false), 2000);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>return (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;div className="min-h-screen bg-black text-gray-100 pb-24"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>{/* Brand Header */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;header className="border-b border-brandBorder bg-black sticky top-0 z-50"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="flex items-center gap-3"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="w-9 h-9 rounded bg-brandBlue flex items-center justify-center font-black text-white text-xl tracking-tighter"&gt;A&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h1 className="text-lg font-bold tracking-tight text-white flex items-center gap-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>Almedia &lt;span className="text-brandCyan font-semibold"&gt;Strategy Builder&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/h1&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/header&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;main className="max-w-6xl mx-auto px-6 mt-10"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{/* Dynamic Warning Alert for high IAP */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{formData.iapPercent &gt; 80 &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="mb-6 p-4 bg-brandBlue/10 border border-brandBlue/50 text-brandCyan rounded-lg flex items-center gap-3 text-sm"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;Icons.ShieldAlert /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;span&gt;&lt;strong&gt;Monetization Notice:&lt;/strong&gt; Highly focused on IAP ({formData.iapPercent}%). Strategy brief will automatically optimize toward deeper funnel milestones to maximize whale values.&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{/* Profiler Card */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;div className="bg-brandCard rounded-xl border border-brandBorder shadow-xl overflow-hidden"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="p-6 border-b border-brandBorder bg-gradient-to-r from-brandCard to-black"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;h2 className="text-xl font-bold flex items-center gap-2 text-white"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;Icons.Zap /&gt; Studio &amp; App Profiler</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/h2&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;p className="text-xs text-gray-400 mt-1"&gt;Input baseline game metrics to construct a dynamically simulated campaign brief.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="p-6 grid grid-cols-1 md:grid-cols-4 gap-6"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{/* 1. Game Info */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="space-y-4 border-r border-brandBorder/30 pr-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h3 className="text-xs font-bold text-brandCyan uppercase tracking-widest"&gt;1. Game Info&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-xs font-semibold text-gray-400 mb-1"&gt;Game Name&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;input type="text" name="gameName" value={formData.gameName} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-xs font-semibold text-gray-400 mb-1"&gt;Studio Name&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;input type="text" name="studioName" value={formData.studioName} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-xs font-semibold text-gray-400 mb-1"&gt;Primary Genre&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;select name="genre" value={formData.genre} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;option&gt;Puzzle&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;option&gt;RPG&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;option&gt;Strategy&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;option&gt;Casual&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{/* 2. Monetization */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="space-y-4 border-r border-brandBorder/30 pr-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h3 className="text-xs font-bold text-brandCyan uppercase tracking-widest"&gt;2. Monetization&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;label className="flex justify-between text-xs font-semibold text-gray-400 mb-1"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;span&gt;Revenue Split&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;span className="text-brandCyan font-mono"&gt;{formData.iapPercent}% IAP / {formData.adPercent}% Ads&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;input type="range" name="iapPercent" min="0" max="100" value={formData.iapPercent} onChange={handleInputChange} className="w-full accent-slider mt-2" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-xs font-semibold text-gray-400 mb-1"&gt;Primary Monetization Gate&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;input type="text" name="primaryGate" value={formData.primaryGate} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{/* 3. Baselines */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="space-y-4 border-r border-brandBorder/30 pr-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h3 className="text-xs font-bold text-brandCyan uppercase tracking-widest"&gt;3. Baselines&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="grid grid-cols-2 gap-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;label className="block text-xs font-semibold text-gray-400 mb-1"&gt;D7 Ret (%)&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;input type="number" name="d7Retention" value={formData.d7Retention} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;label className="block text-xs font-semibold text-gray-400 mb-1"&gt;D60 LTV (€)&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;input type="number" step="0.1" name="d60Ltv" value={formData.d60Ltv} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="pt-4 flex items-center"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;input type="checkbox" id="prevFreecash" name="prevFreecash" checked={formData.prevFreecash} onChange={handleInputChange} className="w-4 h-4 rounded text-brandBlue bg-black border-brandBorder accent-brandCyan focus:ring-0" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;label htmlFor="prevFreecash" className="ml-2.5 text-xs text-gray-300 select-none cursor-pointer"&gt;Previous Freecash experience&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{/* 4. Goals */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="space-y-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;h3 className="text-xs font-bold text-brandCyan uppercase tracking-widest"&gt;4. Goals&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;label className="block text-xs font-semibold text-gray-400 mb-1"&gt;Target Daily Installs&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;input type="number" name="targetInstalls" value={formData.targetInstalls} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div className="grid grid-cols-2 gap-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;label className="block text-xs font-semibold text-gray-400 mb-1"&gt;Budget/mo (€)&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;input type="number" name="monthlyBudget" value={formData.monthlyBudget} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" /&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;label className="block text-xs font-semibold text-gray-400 mb-1"&gt;Duration&lt;/label&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;select name="duration" value={formData.duration} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-xs text-white focus:outline-none focus:border-brandCyan"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;option value="30 days"&gt;30 days&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;option value="60 days"&gt;60 days&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;option value="90 days"&gt;90 days&lt;/option&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/select&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;div className="p-6 bg-black border-t border-brandBorder flex justify-between items-center flex-wrap gap-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="text-xs text-gray-400"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{formData.monthlyBudget &lt; 20000 ? (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;span className="text-amber-400 flex items-center gap-1.5"&gt;&lt;Icons.ShieldAlert /&gt; Budget under €20,000. Recommending high-retention validation roadmap.&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>) : (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;span className="text-emerald-400 flex items-center gap-1.5"&gt;✓ Standard budget optimization verified. Enterprise priority configuration active.&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>onClick={generateStrategyBrief}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>disabled={isGenerating}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>className="px-6 py-2.5 bg-brandBlue hover:bg-blue-700 active:scale-95 transition-all text-white font-bold text-sm rounded flex items-center gap-2"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{isGenerating ? (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;&gt;&lt;span className="animate-spin"&gt;⚙️&lt;/span&gt; Building Strategy...&lt;/&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>) : (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;&gt;&lt;Icons.Zap /&gt; Generate Strategy Brief&lt;/&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{/* Generated Brief Section */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>{generatedBrief &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;section id="brief-results" className="mt-12 space-y-6"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="flex items-center justify-between border-b border-brandBorder pb-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;h2 className="text-2xl font-bold text-white tracking-tight"&gt;{formData.gameName} Strategy Strategy&lt;/h2&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;p className="text-xs text-gray-400 mt-1"&gt;Simulated forecast metrics aligned specifically for {formData.studioName}&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;span className="text-xs font-extrabold px-3 py-1 rounded bg-brandBlue/20 text-brandCyan border border-brandBlue/40 uppercase tracking-widest"&gt;Active Forecast&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{/* Custom Tab Controller */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="flex overflow-x-auto border-b border-brandBorder custom-scroll pb-1 gap-1"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{[</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{ id: 'summary', name: 'Executive Summary', icon: &lt;Icons.Lightbulb /&gt; },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{ id: 'rewards', name: 'Reward Strategy', icon: &lt;Icons.Target /&gt; },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{ id: 'segments', name: 'Target Segments', icon: &lt;Icons.Users /&gt; },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{ id: 'kpis', name: 'KPI Benchmarks', icon: &lt;Icons.BarChart /&gt; },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{ id: 'roadmap', name: 'Adaptive Roadmap', icon: &lt;Icons.Calendar /&gt; },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{ id: 'creative', name: 'Creative Rules', icon: &lt;Icons.Zap /&gt; },</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{ id: 'risks', name: 'Risk Mitigations', icon: &lt;Icons.ShieldAlert /&gt; }</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>].map(tab =&gt; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;button</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>key={tab.id}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>onClick={() =&gt; setActiveTab(tab.id)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>className={`flex items-center gap-2 px-4 py-3 text-xs font-semibold whitespace-nowrap transition-all border-b-2</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>${activeTab === tab.id<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>? 'border-brandCyan text-brandCyan bg-brandBlue/5'<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>: 'border-transparent text-gray-400 hover:text-white hover:border-gray-700'}`}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>{tab.icon}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>{tab.name}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>))}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{/* Output Content Panel */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="bg-brandCard border border-brandBorder rounded-xl min-h-[380px] p-8"&gt;</span></p>
+<p class="p2"><span class="s1"><span class="Apple-converted-space">                                </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{/* Tab 1: Executive Summary */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{activeTab === 'summary' &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-6"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;h3 className="text-lg font-bold text-white mb-2"&gt;Simulated Overview&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-gray-300 text-sm leading-relaxed"&gt;{generatedBrief.executiveSummary.intro}&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="bg-black border border-brandBorder p-5 rounded-lg"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="text-xs text-gray-400"&gt;Projected Day-7 Uplift&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="text-2xl font-mono font-bold text-brandCyan mt-1"&gt;{generatedBrief.executiveSummary.d7Uplift}&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="bg-black border border-brandBorder p-5 rounded-lg"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="text-xs text-gray-400"&gt;Target ROAS (Day-60)&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="text-2xl font-mono font-bold text-brandCyan mt-1"&gt;{generatedBrief.executiveSummary.roas}&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="bg-black border border-brandBorder p-5 rounded-lg"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="text-xs text-gray-400"&gt;Projected Breakeven&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div className="text-2xl font-mono font-bold text-white mt-1"&gt;{generatedBrief.executiveSummary.breakeven}&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="bg-brandBlue/10 border border-brandBlue/30 p-5 rounded-lg flex gap-3 mt-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="text-xl"&gt;⚡&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;h4 className="text-sm font-bold text-white"&gt;Target Insight Analysis&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;p className="text-xs text-gray-300 mt-1 leading-relaxed"&gt;{generatedBrief.executiveSummary.callout}&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{/* Tab 2: Reward Strategy */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{activeTab === 'rewards' &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;h3 className="text-lg font-bold text-white"&gt;Tailored Progression Milestones&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-xs text-gray-400"&gt;Simulating financial incentive thresholds aligned directly with {formData.genre} behaviors.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="overflow-x-auto mt-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;table className="w-full text-left text-sm border-collapse"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;tr className="bg-black text-gray-400 text-xs uppercase tracking-widest border-b border-brandBorder"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;th className="p-4"&gt;Target Milestone&lt;/th&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;th className="p-4"&gt;Recommended Allocation&lt;/th&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;th className="p-4"&gt;Ideal Segment Focus&lt;/th&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;th className="p-4"&gt;Structural Rationale&lt;/th&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;tbody className="divide-y divide-brandBorder/40"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>{generatedBrief.rewardTiers.map((tier, idx) =&gt; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;tr key={idx} className={`hover:bg-brandBlue/5 transition-colors ${idx === 2 ? 'bg-brandBlue/10' : ''}`}&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;td className="p-4 font-semibold text-white flex items-center gap-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                                </span>{idx === 2 &amp;&amp; &lt;span className="w-1.5 h-1.5 rounded-full bg-brandCyan"&gt;&lt;/span&gt;}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                                </span>{tier.milestone}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;td className="p-4 font-mono font-bold text-brandCyan"&gt;{tier.amount}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;td className="p-4 text-xs text-gray-300"&gt;{tier.segment}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;td className="p-4 text-xs text-gray-400"&gt;{tier.rationale}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>))}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{/* Tab 3: Target Segments */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{activeTab === 'segments' &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-6"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;h3 className="text-lg font-bold text-white"&gt;Target Freecash Demographics&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-xs text-gray-400"&gt;Mapping acquisition priorities against historical cohort behaviors.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="grid grid-cols-1 md:grid-cols-3 gap-6"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>{generatedBrief.segments.map((seg, idx) =&gt; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div key={idx} className={`bg-black rounded-lg p-6 border ${idx === 0 ? 'border-brandCyan/80 shadow-lg shadow-brandCyan/5' : 'border-brandBorder'}`}&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;span className="text-[10px] font-bold text-brandCyan uppercase tracking-widest"&gt;{seg.priority}&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;h4 className="text-sm font-bold text-white mt-1 mb-2"&gt;{seg.title}&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;p className="text-xs text-gray-400 h-12 leading-relaxed"&gt;{seg.desc}&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;div className="border-t border-brandBorder/60 pt-4 mt-4 space-y-2 text-xs font-mono"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;div className="flex justify-between"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;span className="text-gray-500"&gt;Projected D7:&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;span className="text-brandCyan font-bold"&gt;{seg.d7}%&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;div className="flex justify-between"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;span className="text-gray-500"&gt;Daily Target:&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;span className="text-white font-bold"&gt;{seg.vol.toLocaleString()} UA&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;div className="border-t border-brandBorder/30 pt-3 mt-3 text-[10px] italic text-gray-500"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>Cohort logic: {seg.rationale}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>))}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{/* Tab 4: KPI Benchmarks */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{activeTab === 'kpis' &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="flex justify-between items-center flex-wrap gap-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;h3 className="text-lg font-bold text-white"&gt;KPI Target Models&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;p className="text-xs text-gray-400"&gt;Comparing estimated simulation parameters against baseline industry averages.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="overflow-x-auto mt-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;table className="w-full text-left text-sm border-collapse"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;tr className="bg-black text-gray-400 text-xs uppercase tracking-widest border-b border-brandBorder"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;th className="p-4"&gt;Target Parameter&lt;/th&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;th className="p-4"&gt;Target Strategy&lt;/th&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;th className="p-4"&gt;Simulated Forecast Rationale&lt;/th&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;th className="p-4"&gt;Category Benchmark&lt;/th&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/thead&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;tbody className="divide-y divide-brandBorder/40"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>{generatedBrief.kpis.map((kpi, idx) =&gt; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;tr key={idx} className="hover:bg-brandBorder/20 transition-colors"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;td className="p-4 font-semibold text-white"&gt;{kpi.name}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;td className="p-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                                </span>&lt;span className={`inline-block px-2.5 py-1 text-xs font-mono font-bold rounded</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                                    </span>${kpi.status === 'good' ? 'bg-emerald-950/40 text-emerald-400 border border-emerald-900/50' : 'bg-brandBorder text-gray-300'}`}&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                                    </span>{kpi.target}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                                </span>&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;td className="p-4 text-xs text-gray-400"&gt;{kpi.rationale}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;td className="p-4 font-mono text-xs text-gray-500"&gt;{kpi.bench}&lt;/td&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;/tr&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>))}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/tbody&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/table&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{/* Tab 5: Adaptive Roadmap */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{activeTab === 'roadmap' &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-6"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;h3 className="text-lg font-bold text-white"&gt;Integrated Deployment Timeline ({formData.duration})&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-xs text-gray-400"&gt;Step-by-step launch sequencing adapted to simulated budget targets.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="border-l border-brandBorder pl-6 ml-4 space-y-8 relative"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>{generatedBrief.roadmap.map((step, idx) =&gt; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div key={idx} className="relative"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>{/* Step indicator bullet */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;span className={`absolute -left-[31px] top-1.5 w-3.5 h-3.5 rounded-full border-2 border-black</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>${step.status === 'blue' ? 'bg-brandCyan' : step.status === 'green' ? 'bg-brandBlue' : 'bg-gray-500'}`}&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;div className="bg-black/60 border border-brandBorder rounded-lg p-5"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;div className="text-[10px] font-bold text-brandCyan uppercase tracking-widest"&gt;{step.phase}&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;h4 className="text-sm font-bold text-white mt-0.5 mb-3"&gt;{step.title}&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;ul className="space-y-2 text-xs text-gray-300"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>{step.items.map((item, id) =&gt; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                                </span>&lt;li key={id} className="flex items-center gap-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                                    </span>&lt;span className="text-emerald-400"&gt;✓&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                                    </span>&lt;span&gt;{item}&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                                </span>&lt;/li&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>))}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;/ul&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>))}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{/* Tab 6: Creative Rules */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{activeTab === 'creative' &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="grid grid-cols-1 md:grid-cols-2 gap-8"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="space-y-6"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;span className="text-[10px] font-bold text-brandCyan uppercase tracking-widest"&gt;Core Marketing Direction&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;h3 className="text-lg font-bold text-white mt-1"&gt;Value Prop Strategy&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="bg-black border border-brandBorder/60 p-5 rounded-lg border-l-4 border-l-brandCyan"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;p className="text-sm font-bold text-white italic"&gt;"{generatedBrief.creative.prop}"&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="space-y-3"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;h4 className="text-xs font-bold text-gray-400 uppercase tracking-widest"&gt;Simulated Ad Angles&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;ul className="space-y-2.5 text-xs text-gray-300"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>{generatedBrief.creative.angles.map((angle, id) =&gt; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;li key={id} className="flex items-start gap-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;span className="text-brandCyan"&gt;•&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;span&gt;{angle}&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;/li&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>))}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/ul&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="space-y-6"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="bg-black border border-brandBorder p-5 rounded-lg"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;h4 className="text-xs font-bold text-brandCyan uppercase tracking-widest mb-3"&gt;Required Assets&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;ul className="space-y-2 text-xs text-gray-300"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>{generatedBrief.creative.assets.map((asset, id) =&gt; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;li key={id} className="flex items-center gap-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;span className="w-1.5 h-1.5 rounded-full bg-brandCyan"&gt;&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;span&gt;{asset}&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;/li&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>))}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/ul&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;div className="bg-red-950/20 border border-red-900/60 p-5 rounded-lg"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;h4 className="text-xs font-bold text-red-400 uppercase tracking-widest mb-3"&gt;⚠️ Guidelines to Avoid&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;ul className="space-y-2 text-xs text-red-300/90"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>{generatedBrief.creative.avoid.map((avoid, id) =&gt; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;li key={id} className="flex items-start gap-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;span&gt;×&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;span&gt;{avoid}&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;/li&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>))}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/ul&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{/* Tab 7: Risk Mitigations */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>{activeTab === 'risks' &amp;&amp; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;div className="space-y-6"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;h3 className="text-lg font-bold text-white"&gt;Risk Matrix Analysis&lt;/h3&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>&lt;p className="text-xs text-gray-400"&gt;Evaluating prospective friction points and immediate technical resolutions.&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;div className="space-y-4"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>{generatedBrief.risks.map((risk, idx) =&gt; (</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;div key={idx} className={`bg-black border p-5 rounded-lg flex flex-col md:flex-row gap-4 justify-between items-start md:items-center ${risk.color}`}&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;div className="space-y-1"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;div className="flex items-center gap-2 flex-wrap"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;span className="text-base"&gt;{risk.icon}&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;h4 className="text-sm font-bold text-white"&gt;{risk.name}&lt;/h4&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                            </span>&lt;span className="text-[10px] font-bold uppercase tracking-widest opacity-80"&gt;({risk.severity} Severity)&lt;/span&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;p className="text-xs text-gray-400 max-w-2xl"&gt;{risk.desc}&lt;/p&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;div className="bg-black border border-brandBorder/80 p-3 rounded text-xs text-gray-300 max-w-sm w-full md:w-auto"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                        </span>&lt;strong&gt;Mitigation Resolution:&lt;/strong&gt; {risk.mitigation}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                                </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                            </span>))}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                        </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>)}</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>{/* Shared Action Controls */}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;div className="mt-8 flex flex-wrap gap-4 justify-end"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;button<span class="Apple-converted-space"> </span></span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>onClick={triggerClipboardCopy}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>className="px-6 py-3 rounded text-xs font-bold border border-brandBorder bg-transparent hover:bg-white/5 text-gray-300 transition-all min-w-[140px] flex items-center justify-center gap-2"</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>{copiedText ? &lt;&gt;&lt;Icons.Check /&gt; Copied&lt;/&gt; : &lt;&gt;&lt;Icons.Copy /&gt; Copy Code&lt;/&gt;}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;button className="px-6 py-3 rounded text-xs font-bold border border-brandBorder bg-transparent hover:bg-white/5 text-gray-300 transition-all min-w-[140px] flex items-center justify-center gap-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;Icons.Link /&gt; Share Link</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;button className="px-6 py-3 rounded text-xs font-bold border border-brandBorder bg-transparent hover:bg-white/5 text-gray-300 transition-all min-w-[140px] flex items-center justify-center gap-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;Icons.Mail /&gt; Email CS</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;button className="px-6 py-3 rounded text-xs font-bold bg-brandBlue hover:bg-blue-700 text-white transition-all min-w-[140px] flex items-center justify-center gap-2"&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                    </span>&lt;Icons.Download /&gt; Download PDF</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                            </span>&lt;/div&gt;</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                        </span>&lt;/section&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                    </span>)}</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">                </span>&lt;/main&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">        </span>);</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>};</span></p>
+<p class="p2"><span class="s1"></span><br></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>const root = ReactDOM.createRoot(document.getElementById('root'));</span></p>
+<p class="p1"><span class="s1"><span class="Apple-converted-space">    </span>root.render(&lt;AlmediaDashboard /&gt;);</span></p>
+<p class="p1"><span class="s1">&lt;/script&gt;</span></p>
+</body>
+</html>
