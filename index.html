@@ -557,13 +557,13 @@
                                             <label className="block text-[11px] font-semibold text-gray-400 mb-1">
                                                 D7 Ret (%) <span className="text-brandCyan">*</span>
                                             </label>
-                                            <input type="number" name="d7Retention" value={formData.d7Retention} onChange={handleInputChange} placeholder="e.g. 18" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
+                                            <input type="number" name="d7Retention" value={formData.d7Retention} onChange={handleInputChange} placeholder="18" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
                                         </div>
                                         <div>
                                             <label className="block text-[11px] font-semibold text-gray-400 mb-1">
                                                 D60 LTV (€) <span className="text-brandCyan">*</span>
                                             </label>
-                                            <input type="number" step="0.1" name="d60Ltv" value={formData.d60Ltv} onChange={handleInputChange} placeholder="e.g. 1.80" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
+                                            <input type="number" step="0.1" name="d60Ltv" value={formData.d60Ltv} onChange={handleInputChange} placeholder="1.80" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
                                         </div>
                                     </div>
                                     <div className="pt-4 flex items-center">
@@ -579,14 +579,14 @@
                                         <label className="block text-xs font-semibold text-gray-400 mb-1">
                                             Target Daily Installs <span className="text-brandCyan">*</span>
                                         </label>
-                                        <input type="number" name="targetInstalls" value={formData.targetInstalls} onChange={handleInputChange} placeholder="e.g. 5000" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
+                                        <input type="number" name="targetInstalls" value={formData.targetInstalls} onChange={handleInputChange} placeholder="5000" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
                                     </div>
-                                    <div className="grid grid-cols-2 gap-2">
+                                    <div className="grid grid-cols-[1.3fr_0.7fr] gap-2">
                                         <div>
-                                            <label className="block text-[11px] font-semibold text-gray-400 mb-1">
+                                            <label className="block text-[11px] font-semibold text-gray-400 mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
                                                 Budget/mo (€) <span className="text-brandCyan">*</span>
                                             </label>
-                                            <input type="number" name="monthlyBudget" value={formData.monthlyBudget} onChange={handleInputChange} placeholder="e.g. 50000" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
+                                            <input type="number" name="monthlyBudget" value={formData.monthlyBudget} onChange={handleInputChange} placeholder="50000" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
                                         </div>
                                         <div>
                                             <label className="block text-[11px] font-semibold text-gray-400 mb-1">Duration</label>
