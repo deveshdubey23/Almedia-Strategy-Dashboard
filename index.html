@@ -72,17 +72,17 @@
 
         const AlmediaDashboard = () => {
             const [formData, setFormData] = useState({
-                gameName: "Office Cat",
-                studioName: "Stillfront Group",
+                gameName: "",
+                studioName: "",
                 genre: "Puzzle",
-                iapPercent: 80,
-                adPercent: 20,
-                primaryGate: "Starter Pack (€1.99)",
-                d7Retention: 18,
-                d60Ltv: 1.80,
+                iapPercent: 50,
+                adPercent: 50,
+                primaryGate: "",
+                d7Retention: "",
+                d60Ltv: "",
                 prevFreecash: false,
-                targetInstalls: 5000,
-                monthlyBudget: 50000,
+                targetInstalls: "",
+                monthlyBudget: "",
                 duration: "90 days"
             });
 
@@ -109,11 +109,14 @@
                 setGeneratedBrief(null);
                 
                 setTimeout(() => {
+                    const gameTitle = formData.gameName || "Your Game";
+                    const studioTitle = formData.studioName || "Your Studio";
                     const isHighIap = formData.iapPercent > 70;
                     const isCasual = formData.genre === 'Puzzle' || formData.genre === 'Casual' || formData.genre === 'Hypercasual';
                     const isMidcore = formData.genre === 'RPG' || formData.genre === 'Strategy' || formData.genre === 'Shooter';
                     const baseD7 = parseInt(formData.d7Retention) || 15;
-                    const budgetAmount = parseInt(formData.monthlyBudget) || 10000;
+                    const budgetAmount = parseInt(formData.monthlyBudget) || 50000;
+                    const targetInstalls = parseInt(formData.targetInstalls) || 5000;
                     
                     const uplift = isCasual ? 8 : (isMidcore ? 14 : 10);
                     const projectedD7 = baseD7 + uplift;
@@ -170,11 +173,11 @@
 
                     const brief = {
                         executiveSummary: {
-                            intro: `Strategic evaluation of ${formData.gameName} by ${formData.studioName} indicates robust, scalable viability. ${dynamics.intro} By ${monetizationStrategyText}`,
+                            intro: `Strategic evaluation of ${gameTitle} by ${studioTitle} indicates robust, scalable viability. ${dynamics.intro} By ${monetizationStrategyText}`,
                             d7Uplift: `${projectedD7 - 2}% - ${projectedD7 + 3}%`,
                             roas: roasTarget,
                             breakeven: breakevenDays,
-                            callout: `🎯 Strategic Target: ${formData.gameName} will ${dynamics.callout}. Implementation optimizes campaign ROAS directly toward ${roasTarget} inside 60 days.`
+                            callout: `🎯 Strategic Target: ${gameTitle} will ${dynamics.callout}. Implementation optimizes campaign ROAS directly toward ${roasTarget} inside 60 days.`
                         },
                         rewardTiers: [
                             { milestone: "Milestone 1 (Install & Initialize)", amount: "€0.08-0.12", segment: "All users", rationale: "Minimal friction trigger, boosting App Store velocity ranking." },
@@ -183,22 +186,22 @@
                             { milestone: "Milestone 4 (First In-App Store Purchase)", amount: "€3.50-5.50", segment: "High spenders", rationale: "Safeguards premium positive ROI offsets and hooks competitive high-rollers." }
                         ],
                         segments: [
-                            { title: `Segment A: ${formData.genre} Specialists`, desc: "High engagement histories inside matching genre titles.", priority: "Priority 1 (Strategic Start)", d7: projectedD7 + 2, vol: Math.round(formData.targetInstalls * 0.55), rationale: dynamics.segARationale },
-                            { title: "Segment B: Progressive Earners", desc: dynamics.segBDesc, priority: "Priority 2 (Scaling Phase)", d7: projectedD7 - 3, vol: Math.round(formData.targetInstalls * 0.35), rationale: "Highly scalable demographics allowing for mass volume expansions." },
-                            { title: "Segment C: High-LTV Premium Whales", desc: "Users verified to regularly convert in-app with verified billing.", priority: "Priority 3 (Whale Harvest)", d7: projectedD7 + 8, vol: Math.round(formData.targetInstalls * 0.10), rationale: "The absolute highest transactional density, critical for robust scaling." }
+                            { title: `Segment A: ${formData.genre} Specialists`, desc: "High engagement histories inside matching genre titles.", priority: "Priority 1 (Strategic Start)", d7: projectedD7 + 2, vol: Math.round(targetInstalls * 0.55), rationale: dynamics.segARationale },
+                            { title: "Segment B: Progressive Earners", desc: dynamics.segBDesc, priority: "Priority 2 (Scaling Phase)", d7: projectedD7 - 3, vol: Math.round(targetInstalls * 0.35), rationale: "Highly scalable demographics allowing for mass volume expansions." },
+                            { title: "Segment C: High-LTV Premium Whales", desc: "Users verified to regularly convert in-app with verified billing.", priority: "Priority 3 (Whale Harvest)", d7: projectedD7 + 8, vol: Math.round(targetInstalls * 0.10), rationale: "The absolute highest transactional density, critical for robust scaling." }
                         ],
                         kpis: [
                             { name: "Day 1 Retention", target: `${baseD7 + 26}% - ${baseD7 + 32}%`, rationale: "Uplift powered by early reward mechanics", bench: `${baseD7 + 20}%`, status: 'good' },
                             { name: "Day 7 Retention", target: `${projectedD7}% - ${projectedD7 + 4}%`, rationale: "Sustained by tiered milestone challenges", bench: `${baseD7}%`, status: 'good' },
                             { name: "Day 30 Retention", target: `${Math.round(projectedD7 * 0.45)}% - ${Math.round(projectedD7 * 0.52)}%`, rationale: "Deep reward structures retain late cohorts", bench: `${Math.round(baseD7 * 0.4)}%`, status: 'neutral' },
-                            { name: "LTV (Day 60)", target: `€${(parseFloat(formData.d60Ltv || 1.0) * 1.45).toFixed(2)} - €${(parseFloat(formData.d60Ltv || 1.0) * 1.75).toFixed(2)}`, rationale: "Tailored monetization gate synchronization", bench: `€${parseFloat(formData.d60Ltv || 1.0).toFixed(2)}`, status: 'good' },
+                            { name: "LTV (Day 60)", target: `€${(parseFloat(formData.d60Ltv || 1.80) * 1.45).toFixed(2)} - €${(parseFloat(formData.d60Ltv || 1.80) * 1.75).toFixed(2)}`, rationale: "Tailored monetization gate synchronization", bench: `€${parseFloat(formData.d60Ltv || 1.80).toFixed(2)}`, status: 'good' },
                             { name: "ROAS (Day 60)", target: roasTarget, rationale: "Highly feasible given correct audience targeting", bench: "110%", status: 'good' },
                             { name: "CPI Target Zone", target: "€0.70 - €1.10", rationale: "Ideal range balancing acquisition and user quality", bench: "€0.85", status: 'neutral' }
                         ],
                         creative: {
                             prop: dynamics.creativeProp,
                             angles: [
-                                `🎮 Play ${formData.gameName} — Pure entertainment without forced video ads tracking.`,
+                                `🎮 Play ${gameTitle} — Pure entertainment without forced video ads tracking.`,
                                 "💰 Instant withdrawals supported directly to local payment setups.",
                                 "🏆 Compete alongside 60M+ monthly gamers maximizing their time value."
                             ],
@@ -225,29 +228,29 @@
 
                     if (totalDays === 30) {
                         activeRoadmap = [
-                            { phase: "Days 1-7", status: "blue", title: "Integration & Initial Verification", items: ["Implement telemetry & postbacks", `Controlled soft-launch: Cap at ${Math.round(formData.targetInstalls * 0.2)} daily installs`, "Monitor tracking validations"] },
-                            { phase: "Days 8-15", status: "blue", title: "Milestone Calibration", items: ["Evaluate D1 & D3 cohort behaviors", "Fine-tune progression steps to optimize budgets", `Scale to ${Math.round(formData.targetInstalls * 0.55)} daily installs`] },
-                            { phase: "Days 16-23", status: "green", title: "Targeted Growth Scale", items: [`Push campaign velocity toward ${formData.targetInstalls} daily installs`, "Initiate targeted segment rules", "Analyze early ROAS models"] },
+                            { phase: "Days 1-7", status: "blue", title: "Integration & Initial Verification", items: ["Implement telemetry & postbacks", `Controlled soft-launch: Cap at ${Math.round(targetInstalls * 0.2)} daily installs`, "Monitor tracking validations"] },
+                            { phase: "Days 8-15", status: "blue", title: "Milestone Calibration", items: ["Evaluate D1 & D3 cohort behaviors", "Fine-tune progression steps to optimize budgets", `Scale to ${Math.round(targetInstalls * 0.55)} daily installs`] },
+                            { phase: "Days 16-23", status: "green", title: "Targeted Growth Scale", items: [`Push campaign velocity toward ${targetInstalls} daily installs`, "Initiate targeted segment rules", "Analyze early ROAS models"] },
                             { phase: "Days 24-30", status: "gray", title: "Cohort Analysis & Review", items: ["Consolidate 30-day cohort metrics", "Evaluate target ROI curves", "Establish expansion strategies"] }
                         ];
                     } else if (totalDays === 60) {
                         activeRoadmap = [
-                            { phase: "Weeks 1-2", status: "blue", title: "Technical Verification & Calibration", items: ["Configure network API links", `Set up initial benchmark limit of ${Math.round(formData.targetInstalls * 0.3)} daily installs`, "Cross-verify payout conversions"] },
-                            { phase: "Weeks 3-4", status: "blue", title: "Initial Scaling & Creative Optimization", items: [`Elevate daily volumes toward ${Math.round(formData.targetInstalls * 0.7)} daily installs`, "Implement creative variations testing", "Identify high-performing channels"] },
-                            { phase: "Weeks 5-6", status: "green", title: "Velocity Push Phase", items: [`Command maximum daily run rates of ${formData.targetInstalls} installs`, "Open targeting to all secondary tiers", "Optimize cost layouts dynamically"] },
+                            { phase: "Weeks 1-2", status: "blue", title: "Technical Verification & Calibration", items: ["Configure network API links", `Set up initial benchmark limit of ${Math.round(targetInstalls * 0.3)} daily installs`, "Cross-verify payout conversions"] },
+                            { phase: "Weeks 3-4", status: "blue", title: "Initial Scaling & Creative Optimization", items: [`Elevate daily volumes toward ${Math.round(targetInstalls * 0.7)} daily installs`, "Implement creative variations testing", "Identify high-performing channels"] },
+                            { phase: "Weeks 5-6", status: "green", title: "Velocity Push Phase", items: [`Command maximum daily run rates of ${targetInstalls} installs`, "Open targeting to all secondary tiers", "Optimize cost layouts dynamically"] },
                             { phase: "Weeks 7-8", status: "gray", title: "LTV Modeling & Refinement", items: ["Run Day-45 LTV progression analysis", "Stabilize daily traffic values", "Approve subsequent quarter budgets"] }
                         ];
                     } else {
                         activeRoadmap = [
-                            { phase: "Month 1", status: "blue", title: "Technical Setup & Performance Baselines", items: ["Align API reporting", `Initiate validation cohorts: ${Math.round(formData.targetInstalls * 0.4)} daily installs`, "Secure early system metrics"] },
-                            { phase: "Month 2", status: "green", title: "Aggressive Volume Escalation", items: [`Unleash targeting at ${formData.targetInstalls} daily installs`, "Launch optimized localization styles", "Track cohort milestone velocities"] },
+                            { phase: "Month 1", status: "blue", title: "Technical Setup & Performance Baselines", items: ["Align API reporting", `Initiate validation cohorts: ${Math.round(targetInstalls * 0.4)} daily installs`, "Secure early system metrics"] },
+                            { phase: "Month 2", status: "green", title: "Aggressive Volume Escalation", items: [`Unleash targeting at ${targetInstalls} daily installs`, "Launch optimized localization styles", "Track cohort milestone velocities"] },
                             { phase: "Month 3", status: "gray", title: "Maximization & Expansion Review", items: ["Consolidate long-term retention trends", "Fine-tune secondary target rules", "Prepare next game integration specs"] }
                         ];
                     }
 
                     if (formData.prevFreecash) {
                         activeRoadmap[0].title += " (Fast-Tracked)";
-                        activeRoadmap[0].items = ["Reuse existing telemetry templates", "Skip low-volume validation caps", `Initialize scaling directly at ${Math.round(formData.targetInstalls * 0.65)} daily installs`];
+                        activeRoadmap[0].items = ["Reuse existing telemetry templates", "Skip low-volume validation caps", `Initialize scaling directly at ${Math.round(targetInstalls * 0.65)} daily installs`];
                     }
 
                     brief.roadmap = activeRoadmap;
@@ -260,7 +263,7 @@
             };
 
             const triggerClipboardCopy = () => {
-                const textToCopy = `Almedia Strategic Campaign Brief\nGame: ${formData.gameName}\nStudio: ${formData.studioName}\nTarget ROAS: ${generatedBrief ? generatedBrief.executiveSummary.roas : "130-170%"}\nUplift Target: ${generatedBrief ? generatedBrief.executiveSummary.d7Uplift : "N/A"}`;
+                const textToCopy = `Almedia Strategic Campaign Brief\nGame: ${formData.gameName || "Your Game"}\nStudio: ${formData.studioName || "Your Studio"}\nTarget ROAS: ${generatedBrief ? generatedBrief.executiveSummary.roas : "130-170%"}\nUplift Target: ${generatedBrief ? generatedBrief.executiveSummary.d7Uplift : "N/A"}`;
                 navigator.clipboard.writeText(textToCopy);
                 setCopiedText(true);
                 setTimeout(() => setCopiedText(false), 2000);
@@ -306,11 +309,11 @@
                                     <h3 className="text-xs font-bold text-brandCyan uppercase tracking-widest">1. Game Info</h3>
                                     <div>
                                         <label className="block text-xs font-semibold text-gray-400 mb-1">Game Name</label>
-                                        <input type="text" name="gameName" value={formData.gameName} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan" />
+                                        <input type="text" name="gameName" value={formData.gameName} onChange={handleInputChange} placeholder="e.g. Office Cat" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan" />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-semibold text-gray-400 mb-1">Studio Name</label>
-                                        <input type="text" name="studioName" value={formData.studioName} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan" />
+                                        <input type="text" name="studioName" value={formData.studioName} onChange={handleInputChange} placeholder="e.g. Stillfront Group" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan" />
                                     </div>
                                     <div>
                                         <label className="block text-xs font-semibold text-gray-400 mb-1">Primary Genre</label>
@@ -319,6 +322,9 @@
                                             <option>RPG</option>
                                             <option>Strategy</option>
                                             <option>Casual</option>
+                                            <option>Shooter</option>
+                                            <option>Hypercasual</option>
+                                            <option>Action</option>
                                         </select>
                                     </div>
                                 </div>
@@ -335,7 +341,7 @@
                                     </div>
                                     <div>
                                         <label className="block text-xs font-semibold text-gray-400 mb-1">Primary Monetization Gate</label>
-                                        <input type="text" name="primaryGate" value={formData.primaryGate} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan" />
+                                        <input type="text" name="primaryGate" value={formData.primaryGate} onChange={handleInputChange} placeholder="e.g. Starter Pack (€1.99)" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white focus:outline-none focus:border-brandCyan" />
                                     </div>
                                 </div>
 
@@ -345,11 +351,11 @@
                                     <div className="grid grid-cols-2 gap-2">
                                         <div>
                                             <label className="block text-xs font-semibold text-gray-400 mb-1">D7 Ret (%)</label>
-                                            <input type="number" name="d7Retention" value={formData.d7Retention} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
+                                            <input type="number" name="d7Retention" value={formData.d7Retention} onChange={handleInputChange} placeholder="e.g. 18" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
                                         </div>
                                         <div>
                                             <label className="block text-xs font-semibold text-gray-400 mb-1">D60 LTV (€)</label>
-                                            <input type="number" step="0.1" name="d60Ltv" value={formData.d60Ltv} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
+                                            <input type="number" step="0.1" name="d60Ltv" value={formData.d60Ltv} onChange={handleInputChange} placeholder="e.g. 1.80" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
                                         </div>
                                     </div>
                                     <div className="pt-4 flex items-center">
@@ -363,12 +369,12 @@
                                     <h3 className="text-xs font-bold text-brandCyan uppercase tracking-widest">4. Goals</h3>
                                     <div>
                                         <label className="block text-xs font-semibold text-gray-400 mb-1">Target Daily Installs</label>
-                                        <input type="number" name="targetInstalls" value={formData.targetInstalls} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
+                                        <input type="number" name="targetInstalls" value={formData.targetInstalls} onChange={handleInputChange} placeholder="e.g. 5000" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
                                     </div>
                                     <div className="grid grid-cols-2 gap-2">
                                         <div>
                                             <label className="block text-xs font-semibold text-gray-400 mb-1">Budget/mo (€)</label>
-                                            <input type="number" name="monthlyBudget" value={formData.monthlyBudget} onChange={handleInputChange} className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
+                                            <input type="number" name="monthlyBudget" value={formData.monthlyBudget} onChange={handleInputChange} placeholder="e.g. 50000" className="w-full bg-black border border-brandBorder rounded p-2 text-sm text-white font-mono focus:outline-none focus:border-brandCyan" />
                                         </div>
                                         <div>
                                             <label className="block text-xs font-semibold text-gray-400 mb-1">Duration</label>
@@ -382,14 +388,7 @@
                                 </div>
                             </div>
 
-                            <div className="p-6 bg-black border-t border-brandBorder flex justify-between items-center flex-wrap gap-4">
-                                <div className="text-xs text-gray-400">
-                                    {formData.monthlyBudget < 20000 ? (
-                                        <span className="text-amber-400 flex items-center gap-1.5"><Icons.ShieldAlert /> Budget under €20,000. Recommending high-retention validation roadmap.</span>
-                                    ) : (
-                                        <span className="text-emerald-400 flex items-center gap-1.5">✓ Standard budget optimization verified. Enterprise priority configuration active.</span>
-                                    )}
-                                </div>
+                            <div className="p-6 bg-black border-t border-brandBorder flex justify-end items-center flex-wrap gap-4">
                                 <button 
                                     onClick={generateStrategyBrief}
                                     disabled={isGenerating}
@@ -409,8 +408,8 @@
                             <section id="brief-results" className="mt-12 space-y-6">
                                 <div className="flex items-center justify-between border-b border-brandBorder pb-4">
                                     <div>
-                                        <h2 className="text-2xl font-bold text-white tracking-tight">{formData.gameName} Strategy Strategy</h2>
-                                        <p className="text-xs text-gray-400 mt-1">Simulated forecast metrics aligned specifically for {formData.studioName}</p>
+                                        <h2 className="text-2xl font-bold text-white tracking-tight">{formData.gameName || "Your Game"} Strategy Strategy</h2>
+                                        <p className="text-xs text-gray-400 mt-1">Simulated forecast metrics aligned specifically for {formData.studioName || "Your Studio"}</p>
                                     </div>
                                     <span className="text-xs font-extrabold px-3 py-1 rounded bg-brandBlue/20 text-brandCyan border border-brandBlue/40 uppercase tracking-widest">Active Forecast</span>
                                 </div>
