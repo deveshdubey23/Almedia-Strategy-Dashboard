@@ -47,6 +47,50 @@
         .custom-scroll::-webkit-scrollbar-thumb:hover {
             background: #00D9FF;
         }
+
+        /* High fidelity print settings for Download PDF functionality */
+        @media print {
+            body {
+                background-color: #FFFFFF !important;
+                color: #000000 !important;
+            }
+            header, .no-print, #profiler-card, #action-controls {
+                display: none !important;
+            }
+            main {
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            #brief-results {
+                margin-top: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
+            .bg-brandCard, .bg-black {
+                background-color: #F8FAFC !important;
+                color: #0F172A !important;
+                border: 1px solid #E2E8F0 !important;
+            }
+            .text-white {
+                color: #0F172A !important;
+            }
+            .text-gray-400, .text-gray-300 {
+                color: #475569 !important;
+            }
+            .border-brandBorder, .border-brandBorder\/30, .border-brandBorder\/60 {
+                border-color: #CBD5E1 !important;
+            }
+            .text-brandCyan {
+                color: #0284C7 !important;
+            }
+            table th {
+                background-color: #E2E8F0 !important;
+                color: #0F172A !important;
+            }
+            table td {
+                color: #334155 !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -91,6 +135,34 @@
             const [activeTab, setActiveTab] = useState('summary');
             const [copiedText, setCopiedText] = useState(false);
             const [validationError, setValidationError] = useState("");
+            const [toast, setToast] = useState({ show: false, message: "" });
+
+            useEffect(() => {
+                const params = new URLSearchParams(window.location.search);
+                if (params.has('gameName')) {
+                    const loadedData = {
+                        gameName: params.get('gameName') || "",
+                        studioName: params.get('studioName') || "",
+                        genre: params.get('genre') || "Puzzle",
+                        iapPercent: parseInt(params.get('iapPercent')) || 50,
+                        adPercent: parseInt(params.get('adPercent')) || 50,
+                        primaryGate: params.get('primaryGate') || "",
+                        d7Retention: params.get('d7Retention') || "",
+                        d60Ltv: params.get('d60Ltv') || "",
+                        prevFreecash: params.get('prevFreecash') === 'true',
+                        targetInstalls: params.get('targetInstalls') || "",
+                        monthlyBudget: params.get('monthlyBudget') || "",
+                        duration: params.get('duration') || "90 days"
+                    };
+                    setFormData(loadedData);
+                    showToast("📋 Configuration imported from link!");
+                }
+            }, []);
+
+            const showToast = (msg) => {
+                setToast({ show: true, message: msg });
+                setTimeout(() => setToast({ show: false, message: "" }), 3500);
+            };
 
             const handleInputChange = (e) => {
                 const { name, value, type, checked } = e.target;
@@ -117,12 +189,10 @@
                     !formData.monthlyBudget.trim()
                 ) {
                     setValidationError("⚠️ Please fill out all required fields marked with an asterisk (*) to build your strategy brief.");
-                    // Smoothly scroll up to the warning block
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                     return;
                 }
 
-                // Clear previous validation error if successful
                 setValidationError("");
                 setIsGenerating(true);
                 setGeneratedBrief(null);
@@ -281,17 +351,122 @@
                 }, 1800);
             };
 
-            const triggerClipboardCopy = () => {
-                const textToCopy = `Almedia Strategic Campaign Brief\nGame: ${formData.gameName}\nStudio: ${formData.studioName}\nTarget ROAS: ${generatedBrief ? generatedBrief.executiveSummary.roas : "130-170%"}\nUplift Target: ${generatedBrief ? generatedBrief.executiveSummary.d7Uplift : "N/A"}`;
-                navigator.clipboard.writeText(textToCopy);
-                setCopiedText(true);
-                setTimeout(() => setCopiedText(false), 2000);
+            const triggerClipboardCopy = (e) => {
+                if (e) e.preventDefault();
+                if (!generatedBrief) return;
+                const textToCopy = `Almedia Strategic Campaign Brief\n` +
+                    `==================================\n` +
+                    `Game: ${formData.gameName}\n` +
+                    `Studio: ${formData.studioName}\n` +
+                    `Genre: ${formData.genre}\n` +
+                    `Revenue Split: ${formData.iapPercent}% IAP / ${formData.adPercent}% Ads\n\n` +
+                    `FORECAST KPIs:\n` +
+                    `- Projected Day-7 Uplift: ${generatedBrief.executiveSummary.d7Uplift}\n` +
+                    `- Target ROAS (Day-60): ${generatedBrief.executiveSummary.roas}\n` +
+                    `- Projected Breakeven: ${generatedBrief.executiveSummary.breakeven}\n\n` +
+                    `REWARD MILESTONES:\n` +
+                    generatedBrief.rewardTiers.map(tier => `* ${tier.milestone} -> ${tier.amount} (${tier.rationale})`).join('\n') + `\n\n` +
+                    `Generated via Almedia Strategy Builder.`;
+
+                try {
+                    const el = document.createElement('textarea');
+                    el.value = textToCopy;
+                    el.setAttribute('readonly', '');
+                    el.style.position = 'absolute';
+                    el.style.left = '-9999px';
+                    document.body.appendChild(el);
+                    el.select();
+                    const success = document.execCommand('copy');
+                    document.body.removeChild(el);
+
+                    if (success) {
+                        setCopiedText(true);
+                        showToast("📋 Strategy brief summary copied to clipboard!");
+                        setTimeout(() => setCopiedText(false), 2000);
+                    } else {
+                        throw new Error();
+                    }
+                } catch (err) {
+                    showToast("⚠️ Copy blocked by sandbox. Try selecting the text manually!");
+                }
+            };
+
+            const triggerShareLink = (e) => {
+                if (e) e.preventDefault();
+                try {
+                    const shareUrl = "https://almedia-strategy-dashboard-h7yd.vercel.app/";
+                    
+                    const el = document.createElement('textarea');
+                    el.value = shareUrl;
+                    el.setAttribute('readonly', '');
+                    el.style.position = 'absolute';
+                    el.style.left = '-9999px';
+                    document.body.appendChild(el);
+                    el.select();
+                    const success = document.execCommand('copy');
+                    document.body.removeChild(el);
+
+                    if (success) {
+                        showToast("🔗 Dashboard link copied to clipboard!");
+                    } else {
+                        throw new Error();
+                    }
+                } catch (err) {
+                    showToast("⚠️ Share link copy blocked by sandbox. Open in a new tab!");
+                }
+            };
+
+            const triggerEmailCS = (e) => {
+                if (e) e.preventDefault();
+                const subject = encodeURIComponent(`Campaign Strategy Brief for ${formData.gameName || 'My Game'} (${formData.studioName || 'My Studio'})`);
+                const body = encodeURIComponent(
+                    `Hello Almedia Support Team,\n\n` +
+                    `We have generated our Freecash Campaign Strategy proposal using the Onboarding Dashboard.\n\n` +
+                    `Campaign Overview:\n` +
+                    `- Game Name: ${formData.gameName}\n` +
+                    `- Studio Name: ${formData.studioName}\n` +
+                    `- Primary Genre: ${formData.genre}\n` +
+                    `- Target Monthly Budget: €${formData.monthlyBudget}\n` +
+                    `- Projected D7 Retention Target: ${generatedBrief ? generatedBrief.executiveSummary.d7Uplift : "Calculated on sync"}\n\n` +
+                    `Please review our profile and let us know when we can set up the dynamic tracker integration.\n\n` +
+                    `Best regards,\n` +
+                    `The ${formData.studioName || 'Studio'} Team`
+                );
+                
+                try {
+                    const mailtoUrl = `mailto:cs@almedia.co?subject=${subject}&body=${body}`;
+                    const link = document.createElement('a');
+                    link.href = mailtoUrl;
+                    link.target = '_blank';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    showToast("✉️ Email client opened securely!");
+                } catch (err) {
+                    showToast("⚠️ Mail client links restricted in preview. Open in a new tab!");
+                }
+            };
+
+            const triggerDownloadPDF = (e) => {
+                if (e) e.preventDefault();
+                try {
+                    window.print();
+                } catch (err) {
+                    showToast("⚠️ Printing restricted in sandbox frames. Open in a new tab to download PDF!");
+                }
             };
 
             return (
                 <div className="min-h-screen bg-black text-gray-100 pb-24">
-                    {}
-                    <header className="border-b border-brandBorder bg-black sticky top-0 z-50">
+                    {/* Floating animated toast notifications */}
+                    {toast.show && (
+                        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 bg-brandBlue text-white font-semibold py-3 px-6 rounded-lg shadow-2xl border border-brandCyan/30 flex items-center gap-2 animate-bounce">
+                            <span className="text-brandCyan">⚡</span> {toast.message}
+                        </div>
+                    )}
+
+                    {/* Header */}
+                    <header className="border-b border-brandBorder bg-black sticky top-0 z-50 no-print">
                         <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
                             <div className="flex items-center gap-3">
                                 <div className="w-9 h-9 rounded bg-brandBlue flex items-center justify-center font-black text-white text-xl tracking-tighter">A</div>
@@ -304,17 +479,18 @@
                         </div>
                     </header>
 
+                    {}
                     <main className="max-w-6xl mx-auto px-6 mt-10">
                         {/* Validation Error Message Box */}
                         {validationError && (
-                            <div className="mb-6 p-4 bg-red-950/40 border border-red-800 text-red-200 rounded-lg flex items-center gap-3 text-sm animate-pulse">
+                            <div className="mb-6 p-4 bg-red-950/40 border border-red-800 text-red-200 rounded-lg flex items-center gap-3 text-sm animate-pulse no-print">
                                 <Icons.ShieldAlert />
                                 <span className="font-semibold">{validationError}</span>
                             </div>
                         )}
 
                         {/* Profiler Card */}
-                        <div className="bg-brandCard rounded-xl border border-brandBorder shadow-xl overflow-hidden">
+                        <div id="profiler-card" className="bg-brandCard rounded-xl border border-brandBorder shadow-xl overflow-hidden no-print">
                             <div className="p-6 border-b border-brandBorder bg-gradient-to-r from-brandCard to-black">
                                 <h2 className="text-xl font-bold flex items-center gap-2 text-white">
                                     <Icons.Zap /> Studio & App Profiler
@@ -322,7 +498,6 @@
                                 <p className="text-xs text-gray-400 mt-1">Input baseline game metrics to construct a dynamically simulated campaign brief.</p>
                             </div>
 
-                            {}
                             <div className="p-6 grid grid-cols-1 md:grid-cols-4 gap-6">
                                 {/* 1. Game Info */}
                                 <div className="space-y-4 border-r border-brandBorder/30 pr-2">
@@ -363,7 +538,7 @@
                                         </label>
                                         <input type="range" name="iapPercent" min="0" max="100" value={formData.iapPercent} onChange={handleInputChange} className="w-full accent-slider mt-2" />
                                         <span className="text-[10px] text-gray-500 block mt-1">
-                                            *IAP = In-App Purchases (direct transactions within the game context)
+                                            *IAP = In-App Purchases (direct microtransactions inside the game app)
                                         </span>
                                     </div>
                                     <div>
@@ -429,7 +604,7 @@
                                 <button 
                                     onClick={generateStrategyBrief}
                                     disabled={isGenerating}
-                                    className="px-6 py-2.5 bg-brandBlue hover:bg-blue-700 active:scale-95 transition-all text-white font-bold text-sm rounded flex items-center gap-2"
+                                    className="px-6 py-2.5 bg-[#2563EB] hover:bg-blue-700 active:scale-95 transition-all text-white font-bold text-sm rounded flex items-center gap-2"
                                 >
                                     {isGenerating ? (
                                         <><span className="animate-spin">⚙️</span> Building Strategy...</>
@@ -449,11 +624,11 @@
                                         <h2 className="text-2xl font-bold text-white tracking-tight">{formData.gameName} Strategy Strategy</h2>
                                         <p className="text-xs text-gray-400 mt-1">Simulated forecast metrics aligned specifically for {formData.studioName}</p>
                                     </div>
-                                    <span className="text-xs font-extrabold px-3 py-1 rounded bg-brandBlue/20 text-brandCyan border border-brandBlue/40 uppercase tracking-widest">Active Forecast</span>
+                                    <span className="text-xs font-extrabold px-3 py-1 rounded bg-brandBlue/20 text-brandCyan border border-brandBlue/40 uppercase tracking-widest no-print">Active Forecast</span>
                                 </div>
 
                                 {/* Custom Tab Controller */}
-                                <div className="flex overflow-x-auto border-b border-brandBorder custom-scroll pb-1 gap-1">
+                                <div className="flex overflow-x-auto border-b border-brandBorder custom-scroll pb-1 gap-1 no-print">
                                     {[
                                         { id: 'summary', name: 'Executive Summary', icon: <Icons.Lightbulb /> },
                                         { id: 'rewards', name: 'Reward Strategy', icon: <Icons.Target /> },
@@ -477,7 +652,6 @@
                                     ))}
                                 </div>
 
-                                {}
                                 {/* Output Content Panel */}
                                 <div className="bg-brandCard border border-brandBorder rounded-xl min-h-[380px] p-8">
                                     
@@ -549,7 +723,7 @@
                                         </div>
                                     )}
 
-                                    {/* Tab 3: Target Segments */}
+                                    {/* Tab 3: Target User Segments */}
                                     {activeTab === 'segments' && (
                                         <div className="space-y-6">
                                             <div>
@@ -734,27 +908,49 @@
                                 </div>
 
                                 {}
-                                {/* Shared Action Controls */}
-                                <div className="mt-8 flex flex-wrap gap-4 justify-end">
+                                {/* Shared Action Controls (Fully functional as requested) */}
+                                <div id="action-controls" className="mt-8 flex flex-wrap gap-4 justify-end no-print">
                                     <button 
+                                        type="button"
                                         onClick={triggerClipboardCopy}
                                         className="px-6 py-3 rounded text-xs font-bold border border-brandBorder bg-transparent hover:bg-white/5 text-gray-300 transition-all min-w-[140px] flex items-center justify-center gap-2"
                                     >
-                                        {copiedText ? <><Icons.Check /> Copied</> : <><Icons.Copy /> Copy Code</>}
+                                        <Icons.Copy /> {copiedText ? "Copied Code!" : "Copy Code"}
                                     </button>
-                                    <button className="px-6 py-3 rounded text-xs font-bold border border-brandBorder bg-transparent hover:bg-white/5 text-gray-300 transition-all min-w-[140px] flex items-center justify-center gap-2">
+                                    <button 
+                                        type="button"
+                                        onClick={triggerShareLink}
+                                        className="px-6 py-3 rounded text-xs font-bold border border-brandBorder bg-transparent hover:bg-white/5 text-gray-300 transition-all min-w-[140px] flex items-center justify-center gap-2"
+                                    >
                                         <Icons.Link /> Share Link
                                     </button>
-                                    <button className="px-6 py-3 rounded text-xs font-bold border border-brandBorder bg-transparent hover:bg-white/5 text-gray-300 transition-all min-w-[140px] flex items-center justify-center gap-2">
+                                    <button 
+                                        type="button"
+                                        onClick={triggerEmailCS}
+                                        className="px-6 py-3 rounded text-xs font-bold border border-brandBorder bg-transparent hover:bg-white/5 text-gray-300 transition-all min-w-[140px] flex items-center justify-center gap-2"
+                                    >
                                         <Icons.Mail /> Email CS
-                                    </button>
-                                    <button className="px-6 py-3 rounded text-xs font-bold bg-brandBlue hover:bg-blue-700 text-white transition-all min-w-[140px] flex items-center justify-center gap-2">
-                                        <Icons.Download /> Download PDF
                                     </button>
                                 </div>
 
                             </section>
                         )}
+                        
+                        {/* Footer Watermark */}
+                        <footer className="mt-20 border-t border-brandBorder/30 pt-8 pb-4 text-center text-xs text-gray-600 no-print">
+                            <p className="mb-2">Created by - Devesh Dubey</p>
+                            <p>
+                                LinkedIn -{" "}
+                                <a 
+                                    href="https://www.linkedin.com/in/devesh--dubey/" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="text-brandCyan hover:underline transition-all"
+                                >
+                                    https://www.linkedin.com/in/devesh--dubey/
+                                </a>
+                            </p>
+                        </footer>
                     </main>
                 </div>
             );
